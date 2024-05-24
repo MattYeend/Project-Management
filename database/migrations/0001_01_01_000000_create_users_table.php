@@ -18,7 +18,14 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->boolean('admin')->default(false);
+            $table->boolean('super_admin')->default(false);
+            $table->boolean('archived')->default(false);
+            $table->timestamp('archived_when')->nullable();
+            $table->unsignedBigInteger('archived_by')->nullable();
             $table->timestamps();
+
+            $table->foreign('archived_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
